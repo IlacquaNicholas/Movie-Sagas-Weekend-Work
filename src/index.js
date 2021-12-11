@@ -10,11 +10,13 @@ import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
+import { generatePath } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
     yield takeEvery('ADD_MOVIE', addNewMovie)
+    yield takeEvery('GET_GENRES', getGenres)
 }
 
 function* fetchAllMovies() {
@@ -28,7 +30,19 @@ function* fetchAllMovies() {
         console.log('get all error');
     }
 }
-
+//Creating a Saga to GET genres from the DB
+function* getGenres(){
+    try{
+        console.log('in the GET genre');
+        const response = yield axios.get('/api/genre');
+        yield put({
+            type:'SET_GENRES',
+            payload: genres.data
+        })
+    }catch (err){
+        console.log('in GET Genres', err);
+    }
+}
 // Creating a Saga function to post movies from the AddMovie inputs
 function* addNewMovie(action){
     try{
@@ -37,9 +51,6 @@ function* addNewMovie(action){
             method: 'POST',
             url: '/api/movie',
             data: action.payload
-        })
-        yield put({
-            type:'FETCH_MOVIES'
         })
         }catch(err){
             console.log('in POST error', err);
@@ -59,7 +70,7 @@ const movies = (state = [], action) => {
 }
 
 // Used to store the movie genres
-const genres = (state = [], action) => {
+const genresReducer = (state = [], action) => {
     switch (action.type) {
         case 'SET_GENRES':
             return action.payload;
@@ -80,7 +91,7 @@ const detailsReducer = (state = {}, action) => {
 const storeInstance = createStore(
     combineReducers({
         movies,
-        genres,
+        genresReducer,
         detailsReducer
     }),
     // Add sagaMiddleware to our store

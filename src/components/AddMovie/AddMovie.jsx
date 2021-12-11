@@ -12,7 +12,10 @@ function AddMovie (){
     const[title, setTitle] = useState('');
     const [poster, setPoster] = useState('');
     const [description, setDescription] = useState('');
-    const [genre, setGenre] = useState('');
+    const [genres, setGenres] = useState('');
+
+    //grabbing the genre reducer
+    const genresReducer = useSelector((store) => store.genresReducer)
 
     const handleAddMovie = ()=>{
         console.log('in AddMovie');
@@ -22,13 +25,13 @@ function AddMovie (){
                 title:title,
                 poster:poster, 
                 description:description, 
-                genre:genre
+                genres:genres
             }
         })
     }
     function chooseCategory(event) {
         event.preventDefault();
-        setGenre(event.target.value);
+        setGenres(event.target.value);
     };
     const backToMoviePage = ()=>{
         history.push('/')
@@ -42,7 +45,7 @@ function AddMovie (){
             value={poster} onChange={(event) => setPoster(event.target.value)}/>
             <textarea type='text' placeholder='Add Description'
             value={description} onChange={(event) => setDescription(event.target.value)}/>
-            <select value= {genre}onChange={chooseCategory}>
+            <select value={genres}onChange={chooseCategory}>
                 <option value="Adventure">Adventure</option>
                 <option value="Animated">Animated</option>
                 <option value="Biographical">Biographical</option>
