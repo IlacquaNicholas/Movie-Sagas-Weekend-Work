@@ -38,6 +38,9 @@ function* addNewMovie(action){
             url: '/api/movie',
             data: action.payload
         })
+        yield put({
+            type:'FETCH_MOVIES'
+        })
         }catch(err){
             console.log('in POST error', err);
         }
