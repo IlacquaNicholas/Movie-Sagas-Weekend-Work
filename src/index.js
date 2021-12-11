@@ -52,7 +52,7 @@ const genres = (state = [], action) => {
     }
 }
 // Used to store the movie details
-const detailsReducer = (state = [], action) => {
+const detailsReducer = (state = {}, action) => {
     switch (action.type) {
         case 'SET_MOVIE_DETAILS':
             return action.payload;

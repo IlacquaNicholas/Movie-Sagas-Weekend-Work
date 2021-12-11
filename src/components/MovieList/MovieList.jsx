@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './MovieList.css'
 
 function MovieList() {
@@ -12,9 +12,13 @@ function MovieList() {
         dispatch({ type: 'FETCH_MOVIES' });
     }, []);
 
-    const imageClick = ()=>{
+    const imageClick = (movie)=>{
+        dispatch({
+            type: 'SET_MOVIE_DETAILS',
+            payload:movie 
+        });
         history.push('/details')
-    }
+    };
 
     return (
         <main>
@@ -24,7 +28,7 @@ function MovieList() {
                     return (
                         <div key={movie.id} >
                             <h3>{movie.title}</h3>
-                            <img onCLick={imageClick} src={movie.poster} alt={movie.title}/>
+                            <img onClick={()=>{imageClick(movie)}} src={movie.poster} alt={movie.title}/>
                         </div>
                     );
                 })}
