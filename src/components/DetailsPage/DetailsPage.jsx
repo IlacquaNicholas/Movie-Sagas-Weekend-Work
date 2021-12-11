@@ -13,6 +13,7 @@ function DetailsPage(){
     return (
         <div>
             <h4>Title: {detailsReducer.title}</h4>
+            {/* <h4>Genre: {detailsReducer.genre}</h4> */}
             <img src ={detailsReducer.poster}/>
             <h4>Description: {detailsReducer.description}</h4>
             <button onClick={handelBackClick}>Back to the Movie Page</button>

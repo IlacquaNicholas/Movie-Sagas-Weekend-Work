@@ -12,6 +12,10 @@ function MovieList() {
         dispatch({ type: 'FETCH_MOVIES' });
     }, []);
 
+    const addMovie = () =>{
+        history.push('/addMovie')
+    }
+
     const imageClick = (movie)=>{
         dispatch({
             type: 'SET_MOVIE_DETAILS',
@@ -23,6 +27,7 @@ function MovieList() {
     return (
         <main>
             <h1>MovieList</h1>
+            <button onClick={addMovie}>Add a Movie</button>
             <section className="movies">
                 {movies.map(movie => {
                     return (
