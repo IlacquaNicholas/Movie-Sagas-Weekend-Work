@@ -30,6 +30,7 @@ useEffect(()=>{
             <h4>Title: {detailsReducer.title}</h4>
             <img src ={detailsReducer.poster}/>
             <h4>Description: {detailsReducer.description}</h4>
+            <h4>Genres</h4>
             {genresReducer.map(genre => (
                 <div key={genre.id}>
                     {genre.name}
