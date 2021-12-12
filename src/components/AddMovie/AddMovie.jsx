@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,10 +12,16 @@ function AddMovie (){
     const[title, setTitle] = useState('');
     const [poster, setPoster] = useState('');
     const [description, setDescription] = useState('');
-    const [genres, setGenres] = useState('');
+    const [genre_id, setGenre_id] = useState(0);
 
     //grabbing the genre reducer
     const genresReducer = useSelector((store) => store.genresReducer)
+
+    useEffect(()=>{
+        dispatch({
+            type: 'GET_GENRES'
+        })
+    }, []);
 
     const handleAddMovie = ()=>{
         console.log('in AddMovie');
@@ -25,13 +31,13 @@ function AddMovie (){
                 title:title,
                 poster:poster, 
                 description:description, 
-                genres:genres
+                genre_id: genre_id
             }
         })
     }
     function chooseCategory(event) {
         event.preventDefault();
-        setGenres(event.target.value);
+        setGenre_id(event.target.value);
     };
     const backToMoviePage = ()=>{
         history.push('/')
@@ -45,26 +51,16 @@ function AddMovie (){
             value={poster} onChange={(event) => setPoster(event.target.value)}/>
             <textarea type='text' placeholder='Add Description'
             value={description} onChange={(event) => setDescription(event.target.value)}/>
-            <select value={genres}onChange={chooseCategory}>
-                <option value="Adventure">Adventure</option>
-                <option value="Animated">Animated</option>
-                <option value="Biographical">Biographical</option>
-                <option value="Comedy">Comedy</option>
-                <option value="Disaster">Disaster</option>
-                <option value="Drama">Drama</option>
-                <option value="Epic">Epic</option>
-                <option value="Fantasy">Fantasy</option>
-                <option value="Musical">Musical</option>
-                <option value="Romantic">Romantic</option>
-                <option value="Science Fiction">Science Fiction</option>
-                <option value="Space-Opera">Space-Opera</option>
-                <option value="Superhero">Superhero</option>
+            {/* Trying the drop down that was seen in our pets repo */}
+            <select value={genre_id}onChange={chooseCategory}>
+                <option disabled value='0'>Select Genre</option>
+                {genresReducer.map((genre) => {
+                    return <option key={genre.id} value={genre.id}>{genre.name}</option>
+                })}
             </select>
-            
             <button onClick={handleAddMovie}>Add a Movie</button>
             <div>
-                <button>Cancel Add Movie</button>
-                <button onClick={backToMoviePage}>Back to Movie Page</button>
+                <button onClick={backToMoviePage}>Cancel Movie/Back to Movie Page</button>
             </div>
 
 

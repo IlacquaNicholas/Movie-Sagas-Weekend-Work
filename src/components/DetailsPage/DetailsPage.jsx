@@ -16,6 +16,7 @@ function DetailsPage(){
             {/* <h4>Genre: {detailsReducer.genre}</h4> */}
             <img src ={detailsReducer.poster}/>
             <h4>Description: {detailsReducer.description}</h4>
+            
             <button onClick={handelBackClick}>Back to the Movie Page</button>
 
 

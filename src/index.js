@@ -31,13 +31,14 @@ function* fetchAllMovies() {
     }
 }
 //Creating a Saga to GET genres from the DB
-function* getGenres(){
+function* getGenres(action){
     try{
-        console.log('in the GET genre');
         const response = yield axios.get('/api/genre');
+        console.log('get all genres:', response.data);
+        
         yield put({
             type:'SET_GENRES',
-            payload: genres.data
+            payload: response.data
         })
     }catch (err){
         console.log('in GET Genres', err);
@@ -46,11 +47,14 @@ function* getGenres(){
 // Creating a Saga function to post movies from the AddMovie inputs
 function* addNewMovie(action){
     try{
-        console.log('in addNewMovie', action);
+        console.log('in addNewMovie', action.payload);
         const response = yield axios({
             method: 'POST',
             url: '/api/movie',
             data: action.payload
+        })
+        yield put ({
+            type: 'FETCH_MOVIES'
         })
         }catch(err){
             console.log('in POST error', err);

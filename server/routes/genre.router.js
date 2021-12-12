@@ -4,11 +4,11 @@ const pool = require('../modules/pool')
 
 router.get('/', (req, res) => {
   // Add query to get all genres
-  const sqlText = `SELECT * FROM "genres" ORDER BY "id";`
+  const sqlText = `SELECT * FROM "genres" ORDER BY "name" ASC;`
   pool.query(sqlText)
-  .then((dbRes)=>{
-    console.log('IN GET/genres', dbRes);
-    res.sendStatus(200)
+  .then((result)=>{
+    console.log('IN GET/genres', result);
+    res.send(result.rows)
   })
   .catch ((dbErr)=>{
     console.log('in GET/genres error', dbErr);
