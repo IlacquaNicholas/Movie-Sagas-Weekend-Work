@@ -6,10 +6,13 @@ import './MovieList.css'
 function MovieList() {
     const dispatch = useDispatch();
     const movies = useSelector(store => store.movies);
+
+
     const history = useHistory();
 
     useEffect(() => {
         dispatch({ type: 'FETCH_MOVIES' });
+        dispatch({ type: 'GET_GENRES' });
     }, []);
 
     const addMovie = () =>{
@@ -21,6 +24,11 @@ function MovieList() {
             type: 'SET_MOVIE_DETAILS',
             payload:movie 
         });
+        dispatch({
+            type: 'SET_MOVIE_GENRE',
+            payload: movie
+        });
+
         history.push('/details')
     };
 

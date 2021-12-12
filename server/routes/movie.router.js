@@ -16,14 +16,19 @@ router.get('/', (req, res) => {
 });
 //This was a clue given to us. used in the details page to get genres. 
 router.get('/:id', (req, res)=>{
-  console.log(req.params.id);
+  console.log( 'in req.params.id', req.params.id);
   const newText = req.params.id;
-  const sqlText = `SELECT "title", "name" FROM movies JOIN "movies_genres" ON "movies"."id"="movies_genres"."movie_id" 
-    JOIN "genres" ON "movies_genres"."genre_id"="genres"."id" WHERE movie_id=${newText}`;
+  const sqlText = `
+  SELECT "title", "name" FROM "movies" 
+    JOIN "movies_genres" 
+    ON "movies"."id"="movies_genres"."movie_id" 
+    JOIN "genres" 
+    ON "movies_genres"."genre_id"="genres"."id" 
+    WHERE "movie_id"=$1`;
   pool.query(sqlText, [newText])
-    .then ((res)=>{
-      console.log('in /:id', res.rows);
-      res.send(res.rows)
+    .then ((result)=>{
+      console.log('in /:id', result.rows);
+      res.send(result.rows)
     })
     .catch ((err)=>{
       console.log('in /:id error', err);
