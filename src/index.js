@@ -49,7 +49,7 @@ function* getGenres(action){
 function* addNewMovie(action){
     try{
         console.log('in addNewMovie', action.payload);
-        const response = yield axios.post({
+        const response = yield axios({
             method: 'POST',
             url: '/api/movie',
             data: action.payload
